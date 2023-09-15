@@ -26,7 +26,4 @@ usernameSchema.virtual('friendCount').get(function(){
 
 const User = model('User', usernameSchema)
 
-
-
-
 module.exports = {User}
