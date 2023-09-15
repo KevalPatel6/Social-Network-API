@@ -1,6 +1,8 @@
 const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose')
 const dayjs = require('dayjs')
+const {Thought, User} = require('../models')
 
 const reactionSchema = new mongoose.Schema({
     reactionID: {type: ObjectId},
@@ -11,13 +13,13 @@ const reactionSchema = new mongoose.Schema({
 
 //Creating a getter method to format the timestamp
 reactionSchema.methods.getter = function(){
-    dayjs(this.createdAt).format('MM/DD/YYYY')
+    dayjs(this.createdAt).format('MM/DD/YYYY HH:ss')
 }
 
+const Reaction = model('Reaction', reactionSchema)
 
 
-
-module.exports = 
+module.exports = {Reaction}
 
 
 
