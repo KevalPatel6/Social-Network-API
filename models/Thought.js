@@ -17,6 +17,7 @@ const thoughtSchema = new mongoose.Schema({
 {
     toJSON: {
       getters: true,
+      virtuals: true, //Do I need both?//
     },
     id: false,
   }
