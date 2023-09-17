@@ -1,4 +1,4 @@
-const { Thought, User } = require("../models");
+const { Thought, User, reactionSchema } = require("../models");
 
 async function getThoughts(req, res) {
     try {
@@ -75,8 +75,18 @@ async function deleteThought(req, res) {
 
 async function createReaction(req, res) {
     try {
-        const reaction = await 
-    
+        const reaction = await Thought.findOneAndUpdate(
+            {_id: req.params.thoughtId},
+            {$push: {reactions: req.body}},
+            {new: true}
+        )
+
+        if(!reaction){
+            return res.status(400).json({ message: 'There is no thought with that thoughtId' })
+        }
+        
+        res.json(`Added ${reaction.reactions._id} to ${reaction._id}. All reactions for this thought are now: ${reaction.reactions}`)
+
    } catch (err) {
         res.status(500).json(err)
     }
@@ -84,8 +94,22 @@ async function createReaction(req, res) {
 
 async function deleteReaction(req, res) {
    try {
-       const reaction = await 
+    const reaction = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: req.params.reactionId } },
+        { new: true }
+    )
     
+    if (!reaction._id) {
+        return res.status(404).json({ message: 'There is no thought with that thoughtId' })
+    }
+
+    if(!reaction.reactions._id){
+        return res.status(404).json({message: 'There is no reaction with that reactionId'})
+    }
+
+    res.json(`Successfully deleted ${reaction.reactions._id} from ${reaction._id}`)
+
    }  catch (err) {
     res.status(500).json(err)
 }

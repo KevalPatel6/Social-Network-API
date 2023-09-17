@@ -13,6 +13,6 @@ router.route('/:thoughtId').delete(deleteThought)
 
 router.route('/:thoughtId/reactions').post(createReaction)
 
-router.route('/:thoughtId/reactions').delete(deleteReaction)
+router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction)
 
 module.export = router
