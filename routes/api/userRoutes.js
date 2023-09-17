@@ -1,5 +1,5 @@
-const router = require('./index.js')
-const {getUsers, getSingleUser, createUser, updateUser, deleteUser} = require('../../controllers')
+const router = require('express').Router()
+const {getUsers, getSingleUser, createUser, updateUser, deleteUser} = require('../../controllers/userController.js')
 
 
 router.route('/').get(getUsers);
