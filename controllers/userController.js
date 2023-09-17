@@ -72,4 +72,31 @@ async function deleteUser(req, res) {
     }
 }
 
-module.exports = { getUsers, getSingleUser, createUser, updateUser, deleteUser }
+async function addFriend(req,res){
+    try {
+        //Searching by userId and adding a friend by the friendId in params//
+        const user = await User.findOneAndUpdate(
+            {_id: req.params.userId},
+            {$addToSet: {friends: req.params.friendId}},
+            {new:true}
+            )
+
+        const friend = await User.findOne(req.params.friendId)
+
+            if(!user){
+                return res.status(404).json({message: 'No user was found with this Id'})
+            }
+
+            if(!friend){
+                return res.status(404).json({message: 'No friend was found with this friendId'})
+            }
+
+            res.json(`Successfully added ${friend.username} as a friend to ${user.username}`)
+
+        }catch (error) {
+        res.status(500).json(err)
+    }
+}
+
+
+module.exports = { getUsers, getSingleUser, createUser, updateUser, deleteUser, addFriend}

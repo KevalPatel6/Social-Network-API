@@ -6,6 +6,7 @@ connection.on('error', (err) => err);
 
 connection.once('open', async () =>{
     console.log('connected')
+
     //Delete users Collections if they exist//
     let userCheck = await connection.db.listCollections({name: 'users'}).toArray();
     
