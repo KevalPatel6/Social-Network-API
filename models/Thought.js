@@ -2,11 +2,10 @@ const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose')
 const dayjs = require('dayjs')
-const formattedDate = require('../utils/getter')
 
 const thoughtSchema = new mongoose.Schema({
     thoughtText: {type: String, required: true, minlength: 1, maxlength: 280},
-    createdAt: {type: Date, default: Date.now, get: newDate =>  formattedDate(newDate)},
+    createdAt: {type: Date, default: Date.now, get: formattedDate},
     username: {type: String, required: true},
     reactions: [
         {
@@ -23,9 +22,14 @@ const thoughtSchema = new mongoose.Schema({
   }
 )
 
-reactionSchema.virtual('reactionCount').get(function () {
+thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length
 })
+
+//Creating Getter Function to formatDate//
+function formattedDate(){
+    dayjs(this.createdAt).format('MM/DD/YYYY HH:ss')
+}
 
 const Thought = model('Thought', thoughtSchema)
 

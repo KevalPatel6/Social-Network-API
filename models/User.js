@@ -1,16 +1,15 @@
 const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
-const { Thought, Reaction } = require('../models')
 const { Schema, model } = require('mongoose')
 
 const usernameSchema = new mongoose.Schema(
     {
-        username: { type: String, unique: true, required: true },
+        username: { type: String, unique: true, required: true, trimmed: true },
         email: { type: String, required: true, unique: true }, //Need a validation here
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'reactionSchema'
+                ref: 'Thought'
             }
         ],
         friends: [
