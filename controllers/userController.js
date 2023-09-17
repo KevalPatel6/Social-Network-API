@@ -27,10 +27,17 @@ async function getSingleUser(req, res) {
 }
 
 async function createUser(req, res) {
-    const user = await User.create({
-        username: req.body.username,
-        email: req.body.email
-    })
+    try {
+        const user = await User.create({
+            username: req.body.username,
+            email: req.body.email
+        })
+
+        res.json(user)
+        
+    } catch (err) {
+        res.status(500).json(err)
+    }
 }
 
 async function updateUser(req, res) {
