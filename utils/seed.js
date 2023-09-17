@@ -1,12 +1,11 @@
 const connection = require('../config/connection')
 const {User} = require('../models')
-const userData = require('./data')
+const userData = require('./data.json')
 
 connection.on('error', (err) => err);
 
 connection.once('open', async () =>{
     console.log('connected')
-    
     //Delete users Collections if they exist//
     let userCheck = await connection.db.listCollections({name: 'users'}).toArray();
     
@@ -14,7 +13,12 @@ connection.once('open', async () =>{
         await connection.dropCollection('users');
     }
     
+    const users = userData
+
     //Insert Seed Data//
-    let insertUserData = await User.insertMany(userData)
+    await User.insertMany(users)
     
+    console.table(users)
+    console.info('Seeding complete! 🌱')
+    process.exit(0)
 })

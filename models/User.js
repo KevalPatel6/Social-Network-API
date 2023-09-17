@@ -17,7 +17,7 @@ const usernameSchema = new mongoose.Schema(
             //Adding a mongoose validation for email address using a Regex pattern//
             validate:
                 { validator: function(value){
-                    const regexEmailPattern = new RegExp(`^[a-zA-Z0-9_-+~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$`)
+                    const regexEmailPattern = new RegExp(`^[a-zA-Z0-9_\\-+~]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{3,}$`)
                     return regexEmailPattern.test(value)
                 },
                 message: 'The email entered is not a valid email address'}
