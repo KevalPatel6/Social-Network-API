@@ -1,10 +1,11 @@
-const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
-const { Schema, model } = require('mongoose')
 const dayjs = require('dayjs')
+const {ObjectId} = require('bson')
+const { Schema, Types } = require('mongoose');
 
 const reactionSchema = new mongoose.Schema({
-  reactionID: { type: ObjectId, default: new ObjectId},
+  reactionID: { type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId()},
   reactionBody: { type: String, required: true, maxlength: 280 },
   username: { type: String, required: true },
   createdAt: { type: Date, default: Date.now, get: formattedDate}
@@ -13,7 +14,7 @@ const reactionSchema = new mongoose.Schema({
     toJSON: {
       getters: true,
     },
-    id: false,
+    _id: false,
   }
 )
 
@@ -22,4 +23,4 @@ function formattedDate(){
   dayjs(this.createdAt).format('MM/DD/YYYY HH:ss')
 }
 
-module.exports = { reactionSchema }
+module.exports = reactionSchema 

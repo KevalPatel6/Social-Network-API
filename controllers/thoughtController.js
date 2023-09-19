@@ -3,10 +3,10 @@ const { Thought, User, reactionSchema } = require("../models");
 async function getThoughts(req, res) {
     try {
         const thoughts = await Thought.find();
-
         res.json(thoughts);
 
     } catch (err) {
+        console.error(err)
         res.status(500).json(err)
     }
 }
@@ -39,6 +39,7 @@ async function createThought(req, res) {
         res.json({ thought: thought, user: user })
 
     } catch (err) {
+        console.error(err)
         res.status(500).json(err)
     }
 }

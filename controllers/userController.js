@@ -1,6 +1,5 @@
 const { User } = require('../models/User')
 
-
 async function getUsers(req, res) {
     try {
         const users = await User.find();
@@ -54,7 +53,13 @@ async function updateUser(req, res) {
             return res.status(404).json({ message: "No user exists with that Id" })
         }
 
-        res.json({ message: `Updated user: ${oldUser.username}'s information from ${oldUser} to ${user}` })
+        res.json({ message: `
+        Updated user: ${oldUser.username}'s information from:
+        username: ${oldUser.username}
+        email: ${oldUser.email} 
+        to 
+        username: ${user.username}
+        email: ${user.email}` })
 
     } catch (err) {
         console.log(err);
@@ -88,7 +93,7 @@ async function addFriend(req, res) {
             { new: true }
         )
 
-        const friend = await User.findOne(req.params.friendId)
+        const friend = await User.findOne({_id: req.params.friendId})
 
         if (!user) {
             return res.status(404).json({ message: 'No user was found with this Id' })
@@ -101,6 +106,7 @@ async function addFriend(req, res) {
         res.json(`Successfully added ${friend.username} as a friend to ${user.username}`)
 
     } catch (err) {
+        console.error(err)
         res.status(500).json(err)
     }
 }
