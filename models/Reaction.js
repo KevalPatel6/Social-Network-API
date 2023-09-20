@@ -14,13 +14,15 @@ const reactionSchema = new mongoose.Schema({
     toJSON: {
       getters: true,
     },
-    _id: false,
+    id: false,
   }
 )
 
+
+
 //Creating Getter Function to formatDate//
-function formattedDate(){
-  dayjs(this.createdAt).format('MM/DD/YYYY HH:ss')
+function formattedDate(value){
+  return dayjs(value).format('MM/DD/YYYY HH:ss')
 }
 
 module.exports = reactionSchema 

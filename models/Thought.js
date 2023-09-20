@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose')
 const dayjs = require('dayjs')
 const reactionSchema = require('./Reaction')
+const {User} = require('./User')
 
 const thoughtSchema = new mongoose.Schema({
     thoughtText: {
@@ -23,7 +24,8 @@ const thoughtSchema = new mongoose.Schema({
     toJSON: {
       getters: true,
       virtuals: true, //Do I need both?//
-    }
+    },
+    id: false
   }
 )
 
@@ -31,9 +33,10 @@ thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length
 })
 
+
 //Creating Getter Function to formatDate//
-function formattedDate(){
-    dayjs(this).format('MM/DD/YYYY HH:ss')
+function formattedDate(value){
+    return dayjs(value).format('MM/DD/YYYY HH:ss')
 }
 
 const Thought = model('Thought', thoughtSchema)

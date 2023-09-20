@@ -1,6 +1,7 @@
 const { ObjectId } = require('bson');
 const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose')
+const { Thought } = require('./Thought')
 
 const usernameSchema = new mongoose.Schema(
     {
@@ -16,11 +17,13 @@ const usernameSchema = new mongoose.Schema(
             unique: true,
             //Adding a mongoose validation for email address using a Regex pattern//
             validate:
-                { validator: function(value){
+            {
+                validator: function (value) {
                     const regexEmailPattern = new RegExp(`^[a-zA-Z0-9_\\-+~]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{3,}$`)
                     return regexEmailPattern.test(value)
                 },
-                message: 'The email entered is not a valid email address'}
+                message: 'The email entered is not a valid email address'
+            }
         },
         thoughts: [{
             type: Schema.Types.ObjectId,
@@ -35,14 +38,14 @@ const usernameSchema = new mongoose.Schema(
         toJSON: {
             virtuals: true,
         },
-        _id: false,
+        id: false
+
     }
 )
 
 usernameSchema.virtual('friendCount').get(function () {
     return this.friends.length
 })
-
 
 
 const User = model('User', usernameSchema)
